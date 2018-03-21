@@ -34,7 +34,7 @@
     "deploy:prod": "git-directory-deploy --directory build/ --branch latest --repo=${DEPLOY_REPOSITORY:-https://$GITHUB_TOKEN@github.com/konnectors/cozy-konnector-bank-categorization.git}"
   },
   "dependencies": {
-    "cozy-konnector-libs": "^3.0.0",
+    "cozy-konnector-libs": "3.7.4",
     "moment-timezone": "^0.5.14"
   },
   "devDependencies": {
