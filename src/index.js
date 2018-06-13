@@ -12,7 +12,8 @@ const {
   log,
   requestFactory,
   signin,
-  updateOrCreate
+  updateOrCreate,
+  cozyClient
 } = require('cozy-konnector-libs')
 const moment = require('moment-timezone')
 moment.locale('fr')
@@ -33,9 +34,12 @@ function start(fields) {
     .then(fetchIBANs)
     .then(saveAccounts)
     .then(accounts =>
-      Promise.all(
-        accounts.map(account => fetchOperations(account).then(saveOperations))
-      )
+      Promise.all([
+        ...accounts.map(account =>
+          fetchOperations(account).then(saveOperations)
+        ),
+        fetchBalances(accounts).then(saveBalances)
+      ])
     )
 }
 
@@ -189,4 +193,67 @@ function parseAmount(amount) {
 
 function parseDate(date) {
   return moment.tz(date, 'D MMM YYYY', 'Europe/Paris').format()
+}
+
+async function getBalanceHistory(year, accountId) {
+  const index = await cozyClient.data.defineIndex(
+    'io.cozy.bank.balancehistories',
+    ['year', 'relationships.account.data._id']
+  )
+  const options = {
+    selector: { year, 'relationships.account.data._id': accountId },
+    limit: 1
+  }
+  const [balance] = await cozyClient.data.query(index, options)
+
+  if (balance) {
+    log(
+      'info',
+      `Found a io.cozy.bank.balancehistories document for year ${year} and account ${accountId}`
+    )
+    return balance
+  }
+
+  log(
+    'info',
+    `io.cozy.bank.balancehistories document not found for year ${year} and account ${accountId}, creating a new one`
+  )
+  return getEmptyBalanceHistory(year, accountId)
+}
+
+function getEmptyBalanceHistory(year, accountId) {
+  return {
+    year,
+    balances: {},
+    metadata: {
+      version: 1
+    },
+    relationships: {
+      account: {
+        data: {
+          _id: accountId,
+          _type: 'io.cozy.bank.accounts'
+        }
+      }
+    }
+  }
+}
+
+function fetchBalances(accounts) {
+  const now = moment()
+  const todayAsString = now.format('YYYY-MM-DD')
+  const currentYear = now.year()
+
+  return Promise.all(
+    accounts.map(account => {
+      const history = getBalanceHistory(currentYear, account._id)
+      history.balances[todayAsString] = account.balance
+
+      return history
+    })
+  )
+}
+
+function saveBalances(balances) {
+  return updateOrCreate(balances, 'io.cozy.bank.balancehistories', ['_id'])
 }
