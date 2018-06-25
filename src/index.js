@@ -8,18 +8,28 @@ process.env.SENTRY_DSN =
 
 const {
   BaseKonnector,
-  addData,
   log,
   requestFactory,
   signin,
-  updateOrCreate
+  cozyClient
 } = require('cozy-konnector-libs')
 const moment = require('moment-timezone')
+
+const models = require('cozy-doctypes')
+const BankingReconciliator = require('cozy-doctypes/utils/BankingReconciliator')
+
 moment.locale('fr')
 moment.tz.setDefault('Europe/Paris')
 
 const baseUrl = `https://espace-client.lanef.com/templates`
-module.export = new BaseKonnector(start)
+module.export = new BaseKonnector(async () => {
+  await start()
+})
+
+class BankTransaction extends models.BankTransaction {}
+class BankAccount extends models.BankAccount {}
+
+models.Document.registerClient(cozyClient)
 
 const rq = requestFactory({
   jar: true,
@@ -27,16 +37,25 @@ const rq = requestFactory({
   cheerio: true
 })
 
-function start(fields) {
-  return login(fields)
-    .then(parseAccounts)
-    .then(fetchIBANs)
-    .then(saveAccounts)
-    .then(accounts =>
-      Promise.all(
-        accounts.map(account => fetchOperations(account).then(saveOperations))
-      )
-    )
+const reconciliator = new BankingReconciliator({
+  BankAccount,
+  BankTransaction
+})
+
+async function start(fields) {
+  let fetchedAccounts, fetchedTransactions
+  await login(fields)
+  fetchedAccounts = await parseAccounts().then(fetchIBANs)
+  fetchedTransactions = await Promise.all(
+    fetchedAccounts.map(async account => {
+      const $ = await fetchOperations(account)
+      const operations = parseOperations($)
+      operations.forEach(operation => {
+        operation.vendorAccountId = account.number
+      })
+    })
+  )
+  await reconciliator.save(fetchedAccounts, fetchedTransactions)
 }
 
 function login(fields) {
@@ -65,6 +84,7 @@ function parseAccounts() {
         .eq(0)
         .text()
         .trim()
+      const accountNumber = $(item).data('value')
       return {
         institutionLabel: 'La Nef',
         label,
@@ -74,7 +94,8 @@ function parseAccounts() {
             .text()
         ),
         type: label.match(/Parts Sociales/) ? 'liability' : 'bank',
-        number: $(item).data('value')
+        number: accountNumber,
+        vendorId: accountNumber
       }
     })
 
@@ -121,14 +142,7 @@ function fetchIBANs(accounts) {
   )
 }
 
-function saveAccounts(accounts) {
-  return updateOrCreate(accounts, 'io.cozy.bank.accounts', [
-    'institutionLabel',
-    'number'
-  ])
-}
-
-function fetchOperations(account) {
+async function fetchOperations(account) {
   log('info', `Gettings operations for ${account.label} over the last 10 years`)
 
   const params = {
@@ -151,31 +165,26 @@ function fetchOperations(account) {
     uri: `${baseUrl}/account/accountActivityListWidget.cfm`,
     method: 'POST',
     form: params
-  }).then($ => {
-    const rows = Array.from($('table tbody').children('tr.activity-data-rows'))
-    return Promise.resolve(
-      rows.map(row => {
-        const cells = Array.from($(row).children('td')).map(cell =>
-          $(cell)
-            .text()
-            .trim()
-        )
-        return {
-          label: cells[5],
-          type: 'none', // TODO parse the labels for that
-          date: parseDate(cells[2]),
-          dateOperation: parseDate(cells[1]),
-          amount: parseAmount(cells[4]),
-          currency: 'EUR',
-          account: account._id
-        }
-      })
-    )
   })
 }
 
-function saveOperations(operations) {
-  return addData(operations, 'io.cozy.bank.operations')
+function parseOperations($) {
+  const rows = Array.from($('table tbody').children('tr.activity-data-rows'))
+  return rows.map(row => {
+    const cells = Array.from($(row).children('td')).map(cell =>
+      $(cell)
+        .text()
+        .trim()
+    )
+    return {
+      label: cells[5],
+      type: 'none', // TODO parse the labels for that
+      date: parseDate(cells[2]),
+      dateOperation: parseDate(cells[1]),
+      amount: parseAmount(cells[4]),
+      currency: 'EUR'
+    }
+  })
 }
 
 function parseAmount(amount) {
