@@ -64,6 +64,12 @@
   version "7.3.4"
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.3.4.tgz#a43357e4bbf4b92a437fb9e465c192848287f27c"
 
+"@babel/runtime@7.3.1":
+  version "7.3.1"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.3.1.tgz#574b03e8e8a9898eaf4a872a92ea20b7846f6f2a"
+  dependencies:
+    regenerator-runtime "^0.12.0"
+
 "@babel/template@^7.1.0":
   version "7.2.2"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.2.2.tgz#005b3fdf0ed96e88041330379e0da9a708eb2907"
@@ -1796,6 +1802,12 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
+classificator@0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/classificator/-/classificator-0.3.3.tgz#b344cf1dfe90a292c4e507ed221aa72eff45b9d5"
+  dependencies:
+    decimal.js "^10.0.0"
+
 cli-cursor@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/cli-cursor/-/cli-cursor-1.0.2.tgz#64da3f7d56a54412e59794bd62dc35295e8f2987"
@@ -2130,9 +2142,18 @@ cozy-client-js@^0.8.0:
     pouchdb-adapter-cordova-sqlite "https://github.com/SnceGroup/pouchdb-adapter-cordova-sqlite.git#f3ee23009b70209c611435d57491aa77fb88802a"
     pouchdb-find "0.10.4"
 
-cozy-jobs-cli@1.7.14:
-  version "1.7.14"
-  resolved "https://registry.yarnpkg.com/cozy-jobs-cli/-/cozy-jobs-cli-1.7.14.tgz#b75670113cc38d70d869c9116cbd1088699a92c8"
+cozy-doctypes@1.38.6:
+  version "1.38.6"
+  resolved "https://registry.yarnpkg.com/cozy-doctypes/-/cozy-doctypes-1.38.6.tgz#7f797f25372a1589210d43f6df7f4eefef27b72a"
+  dependencies:
+    "@babel/runtime" "7.3.1"
+    cozy-logger "1.3.1"
+    es6-promise-pool "2.5.0"
+    lodash "4.17.11"
+
+cozy-jobs-cli@1.7.15:
+  version "1.7.15"
+  resolved "https://registry.yarnpkg.com/cozy-jobs-cli/-/cozy-jobs-cli-1.7.15.tgz#a99ccfb3c60c92612e8392e56578e5ad768d8cd9"
   dependencies:
     btoa "1.2.1"
     cheerio "1.0.0-rc.2"
@@ -2140,7 +2161,7 @@ cozy-jobs-cli@1.7.14:
     commander "2.19.0"
     core-js "2.6.5"
     cozy-client-js "0.9.0"
-    cozy-konnector-libs "^4.14.12"
+    cozy-konnector-libs "^4.14.13"
     cozy-logger "^1.3.1"
     opn "5.4.0"
     pretty "2.0.0"
@@ -2177,15 +2198,17 @@ cozy-konnector-libs@3.8.1:
     request-promise "^4.2.1"
     uuid "^3.1.0"
 
-cozy-konnector-libs@^4.14.12:
-  version "4.14.12"
-  resolved "https://registry.yarnpkg.com/cozy-konnector-libs/-/cozy-konnector-libs-4.14.12.tgz#b275b4f30156c1e773536f23b8ba3e338402bfe3"
+cozy-konnector-libs@^4.14.13:
+  version "4.14.13"
+  resolved "https://registry.yarnpkg.com/cozy-konnector-libs/-/cozy-konnector-libs-4.14.13.tgz#0fe6e6623a821b863ce981a0e80dcc0519419256"
   dependencies:
     bluebird "3.5.3"
     bluebird-retry "0.11.0"
     btoa "1.2.1"
     cheerio "1.0.0-rc.2"
+    classificator "0.3.3"
     cozy-client-js "0.9.0"
+    cozy-doctypes "1.38.6"
     cozy-logger "1.3.1"
     date-fns "1.30.1"
     geco "0.11.1"
@@ -2379,6 +2402,10 @@ debug@^4.1.0:
 decamelize@^1.0.0, decamelize@^1.1.1:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/decamelize/-/decamelize-1.2.0.tgz#f6534d15148269b20352e7bee26f501f9a191290"
+
+decimal.js@^10.0.0:
+  version "10.1.1"
+  resolved "https://registry.yarnpkg.com/decimal.js/-/decimal.js-10.1.1.tgz#fb541922a2e8fc618f5e6fbb474e281ed3d2a64c"
 
 decode-uri-component@^0.2.0:
   version "0.2.0"
@@ -2781,6 +2808,10 @@ es6-iterator@~2.0.3:
     d "1"
     es5-ext "^0.10.35"
     es6-symbol "^3.1.1"
+
+es6-promise-pool@2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/es6-promise-pool/-/es6-promise-pool-2.5.0.tgz#147c612b36b47f105027f9d2bf54a598a99d9ccb"
 
 es6-symbol@^3.0.2, es6-symbol@^3.1.1, es6-symbol@~3.1.1:
   version "3.1.1"
@@ -5375,13 +5406,13 @@ lodash@4, lodash@^4.17.10:
   version "4.17.10"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.10.tgz#1b7793cf7259ea38fb3661d4d38b3260af8ae4e7"
 
+lodash@4.17.11, lodash@^4.17.11:
+  version "4.17.11"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
+
 lodash@^4.13.1, lodash@^4.14.0, lodash@^4.14.2, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.3.0:
   version "4.17.5"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.5.tgz#99a92d65c0272debe8c96b6057bc8fbfa3bed511"
-
-lodash@^4.17.11:
-  version "4.17.11"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
 
 log-symbols@^1.0.2:
   version "1.0.2"
@@ -7053,6 +7084,10 @@ regenerator-runtime@0.13.1:
 regenerator-runtime@^0.11.0:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
+
+regenerator-runtime@^0.12.0:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.12.1.tgz#fa1a71544764c036f8c49b13a08b2594c9f8a0de"
 
 regenerator-transform@^0.10.0:
   version "0.10.1"
