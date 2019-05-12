@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "babel-core": "6.26.3",
-    "babel-loader": "7.1.5",
+    "babel-loader": "8.0.6",
     "babel-plugin-transform-object-rest-spread": "6.26.0",
     "copy-webpack-plugin": "4.6.0",
     "cozy-jobs-cli": "1.8.9",
