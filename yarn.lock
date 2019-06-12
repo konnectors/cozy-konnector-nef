@@ -2182,9 +2182,9 @@ cozy-doctypes@1.39.0:
     es6-promise-pool "2.5.0"
     lodash "4.17.11"
 
-cozy-jobs-cli@1.8.17:
-  version "1.8.17"
-  resolved "https://registry.yarnpkg.com/cozy-jobs-cli/-/cozy-jobs-cli-1.8.17.tgz#7d9bf4793812706f99519f0e6cfc2f451a905096"
+cozy-jobs-cli@1.8.18:
+  version "1.8.18"
+  resolved "https://registry.yarnpkg.com/cozy-jobs-cli/-/cozy-jobs-cli-1.8.18.tgz#aa3b011885c8ed9116e335b56dc74db57fc33acd"
   dependencies:
     btoa "1.2.1"
     cheerio "1.0.0-rc.3"
@@ -2192,7 +2192,7 @@ cozy-jobs-cli@1.8.17:
     commander "2.20.0"
     core-js "3.1.3"
     cozy-client-js "0.15.1"
-    cozy-konnector-libs "^4.15.16"
+    cozy-konnector-libs "^4.15.17"
     cozy-logger "^1.3.1"
     opn "6.0.0"
     pretty "2.0.0"
@@ -2230,9 +2230,9 @@ cozy-konnector-libs@3.8.1:
     request-promise "^4.2.1"
     uuid "^3.1.0"
 
-cozy-konnector-libs@^4.15.16:
-  version "4.15.16"
-  resolved "https://registry.yarnpkg.com/cozy-konnector-libs/-/cozy-konnector-libs-4.15.16.tgz#afbbf1c80af66b6d9ea7779eeeba09811509bcc7"
+cozy-konnector-libs@^4.15.17:
+  version "4.15.17"
+  resolved "https://registry.yarnpkg.com/cozy-konnector-libs/-/cozy-konnector-libs-4.15.17.tgz#13b092c2abac5135a7f40173ab3e6c98c96cc033"
   dependencies:
     bluebird "3.5.5"
     bluebird-retry "0.11.0"
