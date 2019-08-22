@@ -41,7 +41,7 @@
     "eslint": "5.15.1",
     "eslint-config-cozy-app": "1.2.2",
     "git-directory-deploy": "1.5.1",
-    "husky": "0.14.3",
+    "husky": "3.0.4",
     "webpack": "4.19.1",
     "webpack-cli": "2.1.5"
   }
