@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "cozy-konnector-libs": "3.8.1",
-    "moment-timezone": "^0.5.14"
+    "moment-timezone": "0.5.14"
   },
   "devDependencies": {
     "babel-core": "6.26.3",

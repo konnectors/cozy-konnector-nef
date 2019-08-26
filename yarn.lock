@@ -5922,7 +5922,7 @@ mkdirp2@^1.0.3:
   dependencies:
     minimist "0.0.8"
 
-moment-timezone@^0.5.14:
+moment-timezone@0.5.14:
   version "0.5.14"
   resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.14.tgz#4eb38ff9538b80108ba467a458f3ed4268ccfcb1"
   dependencies:
