@@ -38,7 +38,7 @@
     "babel-plugin-transform-object-rest-spread": "6.26.0",
     "copy-webpack-plugin": "4.6.0",
     "cozy-jobs-cli": "1.9.17",
-    "eslint": "5.15.1",
+    "eslint": "6.7.2",
     "eslint-config-cozy-app": "1.2.2",
     "git-directory-deploy": "1.5.1",
     "husky": "3.0.4",
