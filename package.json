@@ -50,6 +50,6 @@
     "git-directory-deploy": "1.5.1",
     "husky": "4.3.0",
     "webpack": "4.44.2",
-    "webpack-cli": "3.3.12"
+    "webpack-cli": "4.2.0"
   }
 }
